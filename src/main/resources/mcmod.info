@@ -1,0 +1,16 @@
+[
+{
+  "modid": "grinchgeartrinkets",
+  "name": "Grinch's Gear and Trinkets",
+  "description": "Gear and Trinkets.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["mistersecret312"],
+  "credits": "mistersecret312",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
