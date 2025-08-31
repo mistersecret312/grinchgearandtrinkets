@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class RadProtItem extends Item implements IBauble
 {
-    private static final UUID[] ARMOR_MODIFIERS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
+    private static final UUID[] ARMOR_MODIFIERS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6920A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-69469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-69846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-64FD380BB150")};
 
     public RadProtItem(String name)
     {
@@ -38,12 +38,11 @@ public class RadProtItem extends Item implements IBauble
     }
 
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(
-            EntityEquipmentSlot p_getItemAttributeModifiers_1_)
+            EntityEquipmentSlot modifiers)
     {
-        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(p_getItemAttributeModifiers_1_);
-        multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[p_getItemAttributeModifiers_1_.getIndex()], "Armor modifier", (double) 10, 0));
-        multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[p_getItemAttributeModifiers_1_.getIndex()], "Armor toughness", (double) 8, 0));
-
+        Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers(modifiers);
+        multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[modifiers.getIndex()], "Armor modifier", (double) 10, 0));
+        multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[modifiers.getIndex()], "Armor toughness", (double) 8, 0));
 
         return multimap;
     }
@@ -51,7 +50,7 @@ public class RadProtItem extends Item implements IBauble
     @Override
     public BaubleType getBaubleType(ItemStack itemStack)
     {
-        return BaubleType.HEAD;
+        return BaubleType.TRINKET;
     }
 
     public void onWornTick(ItemStack itemstack, EntityLivingBase player)
@@ -61,12 +60,12 @@ public class RadProtItem extends Item implements IBauble
 
     public void onEquipped(ItemStack itemstack, EntityLivingBase player)
     {
-
+        player.getAttributeMap().applyAttributeModifiers(getItemAttributeModifiers(EntityEquipmentSlot.CHEST));
     }
 
     public void onUnequipped(ItemStack itemstack, EntityLivingBase player)
     {
-
+        player.getAttributeMap().applyAttributeModifiers(getItemAttributeModifiers(EntityEquipmentSlot.CHEST));
     }
 
     public boolean canEquip(ItemStack itemstack, EntityLivingBase player)
@@ -77,24 +76,5 @@ public class RadProtItem extends Item implements IBauble
     public boolean canUnequip(ItemStack itemstack, EntityLivingBase player)
     {
         return true;
-    }
-
-    public int getUberTimer(ItemStack stack)
-    {
-        NBTTagCompound tag = stack.getTagCompound();
-        if(tag == null)
-        {
-            stack.setTagCompound(new NBTTagCompound());
-            return 0;
-        }
-        return tag.getInteger("timer");
-    }
-
-    public void setUberTimer(ItemStack stack, int time)
-    {
-        NBTTagCompound tag = stack.getTagCompound();
-        if(tag == null)
-            tag = new NBTTagCompound();
-        tag.setInteger("timer", time);
     }
 }
